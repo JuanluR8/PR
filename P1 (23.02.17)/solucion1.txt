@@ -1,0 +1,73 @@
+Programación con restricciones - práctica 1
+
+#Nombre1: Carlos Piña Martinez
+#Nombre2: Juan Luis Romero Sánchez
+#Nombre3:
+
+#Observaciones:
+
+#P1 Modelo:
+
+%variables de decision
+var bool: A;
+var bool: B;
+var bool: C;
+var bool: D;
+var bool: E;
+var bool: F;
+var bool: G;
+var bool: H;
+
+%Restricciones
+constraint A != B /\ A != D /\ A != E /\  B != F /\ B != C /\
+           E != F /\ E != H /\ F != G /\ H != D /\ H != G /\ D != C;
+
+%Resolver
+solve satisfy;
+
+
+#P2 constraint completa:
+
+%Modelo completo
+include "alldifferent.mzn";
+
+%parametros
+par int: n=10;
+
+%variables
+array [1..n] of var 1..n: coche;
+
+%restricciones
+constraint alldifferent(coche);
+constraint coche[3] = coche[4] - 1 /\ coche[5]= coche [4] + 1;
+constraint coche[10] = 1;
+constraint coche[6] != 10;
+constraint coche[7] > coche[6] /\ coche[7] > coche[5] /\ coche[7] > coche[8];
+constraint coche [8] != coche [9]+1 /\ coche [8] != coche [9]-1;
+
+%resolver
+solve satisfy; 
+
+
+#P3.1 ¿Hay soluciones?(S/N): N
+#P3.2 Explicación (una frase): Porque estamos diciendo que el coche 3 se pinte el noveno,
+y que haya 2 coches más después, cosa que no es posible porque solo tenemos 1 coche más. 
+
+
+#P4 Modelo:
+
+%parametros
+par int: n = 3;
+array [1..n] of par 1..n: origen = [1, 2, 3];
+
+%variables de decision
+array [1..n] of var 1..n: destino;
+
+%constraint
+constraint forall (i in 1..n) (destino[i]=origen[i+1]);
+constraint destino [1] = origen [n];
+
+solve satisfy;
+
+
+
