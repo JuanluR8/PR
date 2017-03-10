@@ -1,0 +1,41 @@
+%numero de trabajadores
+par int: N = 5;
+
+%numero de dias para la tarea
+par int: D = 7;
+
+%maximo de horas que se puede trabajar
+par int: MaxH = 8;
+
+%Ejercicio 1
+array [1..N,1..D] of var 0..MaxH: t;
+
+%Ejercicio 2
+array [1..N] of var 0..D*MaxH: horasPersona;
+
+%Ejercicio 3
+constraint forall (i in 1..N) (horasPersona[i] = sum([ t[i, d] | d in 1..D ]) );
+
+%Ejercicio 4
+array [1..D] of var 0..MaxH*N: horasDia;
+
+%Ejercicio 5
+constraint forall (j in 1..D) (horasDia[j] = sum([ t[y, j] | y in 1..N ]) );
+
+%Ejercicio 6
+constraint forall (i in 1..N) (exists (j in 1..D) (t[i, j]=0 ) );
+
+%Ejercicio 7
+constraint forall (i in 1..N) (horasPersona[i] >= ( MaxH*(D-3) ) );
+
+%Ejercicio 8
+constraint forall (i in 1..N) (forall (j in 1..D-1) ( (t[i,j] < MaxH) \/ ( (t[i,j]=MaxH) /\ (t[i, j+1] < MaxH) ) ) );
+
+%Ejercicio 9
+constraint sum ( [ horasPersona [i] | i in 1..N ] ) >= 225;
+
+%Ejercicio 10
+var 1..D: dias;
+constraint forall (i in 1..dias) ( horasDia[i] > 0 ) /\ forall (j in dias+1..D) ( horasDia[j]=0 );
+
+solve minimize dias;
