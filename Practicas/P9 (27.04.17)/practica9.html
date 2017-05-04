@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html><head>
+
+  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+  <title>Práctica 9</title>
+
+
+</head><body style="background-color: rgb(255, 255, 255);" link="#000099">
+<b><font size="-1">Programación con Restricciones - RafaC </font>
+</b> 
+
+<p valign="center" align="left">&nbsp; <a href="https://gpd.sip.ucm.es/rafa/docencia/pr/index.html" target="_top">
+</a><img alt="-" src="../../line.gif" style="height: 8px; width: 550px;" naturalsizeflag="3"></p>
+
+
+<!------------------------------------Indice---------------------------------------->
+<p align="center"><font style="color: rgb(51, 51, 255);" size="+3">
+<span style="font-weight: bold;">Práctica 9<br>
+ </span></font>
+</p>
+
+<!--
+<p style="text-align: left;"> <big style="font-weight: bold; color: rgb(0, 0, 153);">
+<a href="#pract91">1.- Strings (8/10)</a>
+<br>
+<a href="#pract92">2.- Recubrimiento por cuadrados(2/10)  </a>
+<br>
+
+
+</big></p>
+<br><br>
+<center><big style="font-weight: bold; color: rgb(0, 0, 153);"> <img src="../../line.gif"><br>
+</big></center>
+
+<br>
+
+<br>
+-->
+<!------------------------------------1 strings ---------------------------------------->
+<!--
+<p style="text-align: left;"><big style="font-weight: bold; color: rgb(0, 0, 153);">
+<a name="pract91"></a>1.- Strings<br>
+</big>
+-->
+<br>
+<!--<b>Puntuación</b>: 8/10.<br>-->
+Se quieren generar <i>casos de prueba</i> para comprobar operaciones sobre strings
+en un cierto lenguaje.
+En particular se quieren representar:
+<ul>
+<li> substring(a,p,b) = a es una subcadena de b comenzando en la posición p.
+    Es decir b[p]=a[1]....b[p+n-1]=a[n] con n la longitud de a.
+<li> reverse(a,b): b es la cadena inversa de a.
+<li> count(a,n,c): la cadena a contiene exactamente n copias del carácter c.
+<li> concat(a,b,c): c es la cadena resultante de contatenar a y b
+<li> index(a,l,p): La primera aparición del caracter l en el string a ocurre en la posición p (p = -1 si no aparece)
+<li> insert(a,l,p,b): b es el resultado de insertar el caracter l en la posición p de a. Lógicamente b tendrá un caracter más que a.
+<li> remove(a,l,b): b es el resultado de eliminar la primera aparición del caracter l en a.  b tendrá un caracter menos que a si l está
+      en a. En otro caso b=a.
+<li> removeAll(a,l,b): b es el resultado de eliminar todas las apariciones del caracter l en a.  b tendrá un caracter menos que a si l está
+      en a. En otro caso b=a.
+</ul>
+Se debe escribir un predicado por cada una de las operaciones. 
+Todos los predicados se encontrarán en un fichero,  "lstrings.mzn":
+
+<TABLE border=1 bgcolor="azure"> <TR> <TD>
+<pre>
+% fichero lstrings.mzn
+set of int:CHAR=1..4;
+% nota: suponemos que los strings son arrays de char empezando en la posición 1
+predicate substring(array [int] of var CHAR:a, var int:ini,
+                    array [int] of var CHAR:b) =...
+predicate reverse...
+....                    
+</pre>
+</TD> </TR> </TABLE>
+
+En la solución subir solo "lstrings.mzn". Para hacer pruebas, conviene que nos hagamos otro fichero de pruebas
+
+<TABLE border=1 bgcolor="azure"> <TR> <TD>
+<pre>
+include "lstrings.mzn";
+
+array [1..3] of var CHAR:a;
+array [1..4] of var CHAR:b;
+var int:p;
+var int:q;
+
+....... pruebas .....
+
+solve satisfy;
+
+</pre>
+</TD> </TR> </TABLE>
+debe mostrar:
+<TABLE border=1 bgcolor="azure"> <TR> <TD>
+<pre>
+D:\minizinc>minizinc -a pstrings.mzn
+a: [2, 3, 2] p: 2 b: [1, 2, 3, 2, 3, 2]
+----------
+a: [2, 3, 2] p: 2 b: [2, 2, 3, 2, 3, 2]
+----------
+a: [2, 3, 2] p: 2 b: [3, 2, 3, 2, 3, 2]
+----------
+a: [2, 3, 2] p: 2 b: [4, 2, 3, 2, 3, 2]
+</pre>
+</TD> </TR> </TABLE>
+
+
+<!------------------------------------2 Recubrimiento por cuadrados ---------------------------------------->
+
+<!--
+
+<p style="text-align: left;"><big style="font-weight: bold; color: rgb(0, 0, 153);">
+<a name="pract92"></a>2.- Recubrimiento por cuadrados<br>
+
+</big>
+
+El programa recibe como parámetros de entrada:<br>
+<ul>
+<li> Un entero <i>n</i> indicando la cantidad de puntos a recubrir.
+<li> Un array de <i>n x 2</i> puntos de valores tipo <i>int</i> indicando las coordenadas en  el espacio de los puntos.
+<li> Un <i>float</i> <i>l</i> indicando el lado máximo de los cuadrados.
+</ul>
+El programa debe encontrar la cantidad menor de cuadrados <i>m</i>, m<n, todos con lado menor o igual al valor <i>l</i> tales que
+<ul>
+<li> Todo punto está al menos dentro de un cuadrado.
+<li> Ningún cuadrado está vacío, es decir todos contienen al menos un cuadrado.
+</ul>
+El programa debe mostrar por pantalla:
+<ol>
+<li> El número de cuadrados
+<li> Para cada cubo: el lado y la esquina inferior del cubo.
+</ol>
+<b>Nota:</b>se puede suponer que todos los números están en un rango determinado,
+   por ejemplo entre 0 y 1000.
+<br>
+<b>Puntuación</b>: 2/10.<br>
+<b>Calendario y puntuación máxima</b>: hasta el 28/04->2, 05/05 ->1</br>
+<br>
+-->
+
+<!-- ------------------------------------------------------------------------------------------------- -->
+<center><!------------------------------------- Fin ---------------------------------------><!---------------------------------------------------------------------------->
+<hr><big style="font-weight: bold; color: rgb(0, 0, 153);">
+</big>
+<p valign="center" align="left"><big style="font-weight: bold; color: rgb(0, 0, 153);"><a href="https://gpd.sip.ucm.es/rafa/docencia/pr/index.html" target="_top"><img src="../../pr.jpg" alt="Página Principal" align="middle" border="0" height="50"></a><img alt="-" src="../../line.gif" style="height: 8px; width: 550px;" naturalsizeflag="3"></big></p>
+<p><big style="font-weight: bold; color: rgb(0, 0, 153);"><font size="-1">2015-2016 Rafael
+Caballero
+</font></big></p>
+</center>
+
+</body></html>
